@@ -1,0 +1,67 @@
+type Query {
+  profile(token: String): User
+  login(username: String!, password: String!): User
+}
+
+type Mutation {
+  register(username: String!, email: String!, password: String!): User
+  addPost(userId: ID!, title: String!, content: String!): Post
+  updatePost(postId: ID!, title: String!, content: String!): Post
+  deletePost(postId: ID!): Post
+
+  # comments area
+  addComment(postId: ID!, userId: ID!, content: String!): Comment
+  updateComment(
+    postId: ID!
+    commentId: ID!
+    userId: ID!
+    content: String!
+  ): Comment
+  deleteComment(postId: ID!, userId: ID!, commentId: ID!): Comment
+}
+
+type Subscription {
+  postAdded: Post
+  postUpdated: Post
+  postDeleted: Post
+
+  #Comments area
+  commentAdded: Comment
+  commentUpdated: Comment
+  commentDeleted: Comment
+}
+
+type User {
+  _id: ID!
+  username: String!
+  email: String!
+  password: String!
+  posts: [Post]
+  Notifications: [Notification]
+}
+
+type Post {
+  _id: ID!
+  title: String!
+  content: String!
+  comments: [Comment]
+  likes: [Like]
+}
+
+type Comment {
+  _id: ID!
+  content: String!
+  user: User!
+}
+
+type Like {
+  _id: ID!
+  user: User!
+  post: Post!
+}
+
+type Notification {
+  _id: ID!
+  content: String!
+  viewed: Boolean!
+}
